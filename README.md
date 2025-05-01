@@ -10,6 +10,7 @@ CUSTOMER FACING
   4. Stock numbers will be updated automatically.
 
 INTERNAL ONLY
-  1. Administrator can update stock of items.
-  2. Administrator can add/update new items.
-  3. Administrator can delete discontinued items.
+  1. Administrator can
+    a. Update stock of items.
+    b. Add/update new items.
+    c. Delete discontinued items.
