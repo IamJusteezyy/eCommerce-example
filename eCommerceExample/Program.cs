@@ -1,7 +1,12 @@
+using Microsoft.AspNetCore.Mvc.Razor;
+using eCommerceExample;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+builder.Services.Configure<RazorViewEngineOptions>(options => options.ViewLocationExpanders.Add(new CustomViewLocationExpander()));
 
 var app = builder.Build();
 
@@ -22,6 +27,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Home}/{id?}");
 
 app.Run();

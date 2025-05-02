@@ -1,8 +1,7 @@
 using System.Diagnostics;
-using eCommerceExample.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace eCommerceExample.Controllers
+namespace eCommerceExample.Features.Home
 {
     public class HomeController : Controller
     {
@@ -13,7 +12,7 @@ namespace eCommerceExample.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Home()
         {
             return View();
         }
@@ -21,12 +20,6 @@ namespace eCommerceExample.Controllers
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
