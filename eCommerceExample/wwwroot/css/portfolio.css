@@ -27,9 +27,10 @@
     --primary-color: #7fc6f5;
     --white-color: #ffffff;
     --dark-color: #1f3747;
+    --light-color: #F5E9DB;
     --menu-bg-color: #1f3747;
     --gray-color: #909090;
-    --p-color: #7d7a7a;
+    --p-color: #000000;
     --base-font-family: "Plain", -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     --font-weight-bold: 600;
     --font-weight-normal: 400;
@@ -45,13 +46,13 @@
     --button-font-size: 20px;
     --border-radius-large: 100%;
     --border-radius-medium: 80px;
-    --border-radius-small: 40px;
+    --border-radius-small: 10px;
 }
 
 
   body {
     font-family: var(--base-font-family);
-    background-color: aliceblue
+    background-color: aliceblue;
   }
 
 
@@ -93,8 +94,6 @@
     color: var(--p-color);
     font-size: var(--p-font-size);
     font-weight: var(--font-weight-light);
-    letter-spacing: 0.3px;
-    line-height: 2em;
   }
 
   .section-padding {
@@ -113,9 +112,18 @@
       color: var(--primary-color);
   }
 
+  .dark-color {
+      color: var(--dark-color);
+  }
+
+  .light-color {
+      color: var(--light-color);
+  }
+
   .body-container {
       min-height: 1200px;
       background-color: var(--white-color);
+      padding-top: 2rem;
   }
 
   /* CUSTOM BUTTON */
@@ -194,10 +202,11 @@
     right: 0;
     left: 0;
     opacity: 0;
+    max-height: 90px;
   }
 
   .navbar.scroll {
-    background: var(--menu-bg-color);
+    background: var(--light-color);
     padding: 0.5rem 1rem;
     position: fixed;
     opacity: 1;
@@ -217,7 +226,6 @@
 .contact-form #submit-button:hover,
 .navbar .custom-btn:hover,
 .nav-link:focus {
-    background: var(--dark-color);
     color: var(--white-color);
 }
 
@@ -229,7 +237,7 @@
   .nav-item .nav-link.active, 
   .nav-item .nav-link:hover,
   .nav-link:focus {
-    color: var(--white-color);
+    color: var(--dark-color);
   }
 
 .nav-item .nav-link.active,
@@ -239,9 +247,9 @@
 }
 
   .nav-link {
-    color: var(--white-color);
+    color: var(--dark-color);
     font-weight: var(--font-weight-light);
-    font-size: var(--base-font-size);
+    font-size: var(--p-font-size);
     border-bottom: 1px solid transparent;
   }
 
@@ -312,7 +320,12 @@
   }
 
 .social-icon {
-    color: var(--primary-color);
+    color: var(--dark-color);
+}
+
+.nav-logo {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 
@@ -324,8 +337,16 @@
 }
 
 .carousel-item {
-    background-color: var(--primary-color);
+    background-color: var(--white-color);
     min-height: 250px;
+}
+
+.carousel-caption {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 /*---------------------------------------
@@ -383,14 +404,15 @@ tr.selected td:before {
 
 
 td .book-cover {
-    max-height: 50%;
-    max-width: 50%;
+    max-height: 35%;
+    max-width: 35%;
 }
 
 td .book-cover-small {
-    max-height: 40%;
-    max-width: 40%;
+    max-height: 15%;
+    max-width: 15%;
 }
+
 /*---------------------------------------
      HERO                
   -----------------------------------------*/

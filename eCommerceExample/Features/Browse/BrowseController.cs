@@ -19,9 +19,32 @@ namespace eCommerceExample.Features.Browse
 
         public async Task<IActionResult> Browse()
         {
-            List<BookEF> bookList = await _unitOfWork.BookRepository.GetAll();
+            var bookEFList = await _unitOfWork.BookRepository.GetAll();
+            var bookPriceEFList = await _unitOfWork.BookPriceRepository.GetAll();
+            var coverTypeEFList = await _unitOfWork.CoverTypeRepository.GetAll();
 
-            return View();
+            var bookList =
+                from book in bookEFList
+                join bookPrice in bookPriceEFList on book.BookID equals bookPrice.BookID
+                join coverType in coverTypeEFList on bookPrice.CoverTypeID equals coverType.CoverTypeID
+                select new Book()
+                {
+                    BookID = book.BookID,
+                    BookTitle = book.BookTitle,
+                    Author = book.Author,
+                    ISBN = book.ISBN,
+                    PublishedDate = book.PublishedDate,
+                    Publisher = book.Publisher,
+                    BlobURL = book.BlobURL,
+                    CoverType = coverType.CoverType,
+                    Price = bookPrice.Price,
+                };
+
+            BrowseViewModel browseViewModel = new()
+            {
+                BookList = bookList,
+            };
+            return View(browseViewModel);
         }
 
         [HttpGet]

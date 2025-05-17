@@ -1,126 +1,74 @@
-﻿@{
-	ViewData["Title"] = "Browse";
+﻿@model eCommerceExample.Features.Browse.BrowseViewModel
+@{
+    ViewData["Title"] = "Browse";
 }
 
 <div class="container body-container">
-
-    <div class="alert alert-primary" role="alert">
-        Row data: <span id="row-data"></span>
-    </div>
     <div class="row my-5">
-        <table id="example" class="table table-sm table-hover" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-        </table>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="chkSwitchView">
+            <label class="form-check-label" for="chkSwitchView">Toggle List/Card View</label>
+        </div>
+
+        <!--Card View-->
+        <div id="dvCardView" class="row">
+            @if(Model.BookList != null && Model.BookList.Count() > 0)
+            {
+                @await Html.PartialAsync("_CardView", Model.BookList)
+            }
+        </div>
+        <!--List View-->
+        <div id="dvListView" class="row" hidden>
+            @if(Model.BookList != null && Model.BookList.Count() > 0)
+            {
+                <table id="tblListView" class="table table-sm table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var book in Model.BookList)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="/ViewBook/@book.BookID">View</a>
+                                </td>
+                                <td>@book.BookTitle</td>
+                                <td>@book.Author</td>
+                                <td>@book.Price.ToString("0.00")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+        
     </div>
 </div>
 
 @section Scripts {
     <script>
-        $(document).ready(function () {
-                    $.ajax({
-            'url': "/Browse/GetBooks",
-            'method': "GET",
-            'contentType': 'application/json',
-            'dataType': 'json'
-        }).done( function(data) {
-            $('#example').DataTable({
-                 'data': data,
-                 'dom':
-                    "<'row'<'col-sm-4 col-md-6'l><'col-sm-4 col-md-6 text-end'<'ml-2'B>f>>" +
-                    "<'row'<'table-row col-sm-12'tr>>" +
-                    "<'row'<'col-sm-4 col-md-4'i><'col-sm-4 col-md-7'p>>",
-                 'buttons': [ 'csv', {
-                    'text': '<i class="fa fa-id-badge fa-fw" aria-hidden="true"></i><span class="button-txt"></span>',
-                    'action': function (e, dt, node) {
+        $(document).ready(function(){
+            $('#tblListView').dataTable({
+                "searching": false
+            });
+        });
 
-                       $(dt.table().node()).toggleClass('cards');
-                       $('.fa', node).toggleClass(['fa-table', 'fa-id-badge']);
-                       $('.table-row', node).toggleClass(['col-sm-12', 'col-sm-4']);
-                       dt.draw('page');
-                    },
-                    'className': 'custom-secondary-btn',
-                    'attr': {
-                       'title': 'Change views',
-                    }
-                 }],
-                 'select': 'single',
-                 'columns': [
-                    {
-                       'orderable': false,
-                       'data': null,
-                       'className': 'text-center',
-                       'render': function(data, type, full, meta){
-                          if (type === 'display'){
-                             var url = data.blobURL;
-                             data = '<i class="fa fa-user fa-fw"></i>';
-                             data = '<img class="book-cover-small" src="' + url + '">';
-                          }
-
-                          return data;
-                       }
-                    },
-                    {
-                       'data': 'bookTitle'
-                    },
-                    {
-                       'data': 'author'
-                    },
-                    {
-                       'data': 'price',
-                       'class': 'text-right'
-                    },
-                 ],
-                 'drawCallback': function (settings) {
-                    var api = this.api();
-                    var $table = $(api.table().node());
-
-                    if ($table.hasClass('cards')) {
-
-                       // Create an array of labels containing all table headers
-                       var labels = [];
-                       $('thead th', $table).each(function () {
-                          labels.push($(this).text());
-                       });
-
-                       // Add data-label attribute to each cell
-                       $('tbody tr', $table).each(function () {
-                          $(this).find('td').each(function (column) {
-                             $(this).attr('data-label', labels[column]);
-                          });
-                       });
-
-                       var max = 0;
-                       $('tbody tr', $table).each(function () {
-                          max = Math.max($(this).height(), max);
-                       }).height(max);
-
-                    } else {
-                       // Remove data-label attribute from each cell
-                       $('tbody td', $table).each(function () {
-                          $(this).removeAttr('data-label');
-                       });
-
-                       $('tbody tr', $table).each(function () {
-                          $(this).height('auto');
-                       });
-                    }
-                 }
-              })
-              .on('select', function (e, dt, type, indexes) {
-                 var rowData = table.rows(indexes).data().toArray()
-                 $('#row-data').html(JSON.stringify(rowData));
-              })
-              .on('deselect', function () {
-                 $('#row-data').empty();
-              })
-        })
+        $("#chkSwitchView").change(function() {
+            var state = $('#chkSwitchView').is(":checked");
+            console.log(state);
+            if(state == true){
+                $('#dvCardView').attr("hidden", true);
+                $('#dvListView').attr("hidden", false);
+            }
+            else{
+                $('#dvListView').attr("hidden", true);
+                $('#dvCardView').attr("hidden", false);
+            }
         });
     </script>
 }

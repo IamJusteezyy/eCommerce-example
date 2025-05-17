@@ -1,0 +1,21 @@
+﻿@using eCommerceExample.Repository.Models
+@model IEnumerable<Book>
+
+@if(Model != null && Model.Count() > 1){
+    @foreach (var book in Model)
+    {
+        <div class="card col-sm-4 col-md-4 col-lg-2 mx-3">
+            <img class="book-cover my-2 card-image-top" src="@(book.BlobURL ?? "https://nookbookblobstorage.blob.core.windows.net/book-covers/BookCoverUnavailable.png")" />
+            <div class="card-body">
+                <p class="book-title">@book.BookTitle</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">@book.Author</li>
+                <li class="list-group-item fw-bold">$@book.Price.ToString("0.00")</li>
+                <li class="list-group-item fw-bold text-center">
+                    <a href="ViewBook/@book.BookID" class="btn custom-btn stretched-link">View</a>
+                </li>
+            </ul>
+        </div>
+    }
+}
