@@ -9,8 +9,13 @@ namespace eCommerceExample.Repository.Models
 {
     public class Book
     {
-        public string Title { get; set; }
+        public string BookTitle { get; set; }
         public string Author { get; set; }
+        public Int64 ISBN { get; set; }
+        public DateTime? PublishedDate { get; set; }
+        public string? Publisher { get; set; }
+        public string? BlobURL { get; set; }
+        public string CoverType { get; set; }
         public Decimal Price { get; set; }
     }
 }

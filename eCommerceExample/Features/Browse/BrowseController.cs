@@ -26,18 +26,28 @@ namespace eCommerceExample.Features.Browse
 
         [HttpGet]
         [Route("GetBooks")]
-        public JsonResult GetBooks()
+        public async Task<JsonResult> GetBooks()
         {
-            Book data = new()
-            {
-                Title = "Test Book",
-                Author = "Test, Author",
-                Price = 19.99m
-            };
-            List<Book> bookList = new()
-            {
-                data
-            };
+            var bookEFList = await _unitOfWork.BookRepository.GetAll();
+            var bookPriceEFList = await _unitOfWork.BookPriceRepository.GetAll();
+            var coverTypeEFList = await _unitOfWork.CoverTypeRepository.GetAll();
+
+            var bookList =
+                from book in bookEFList
+                join bookPrice in bookPriceEFList on book.BookID equals bookPrice.BookID
+                join coverType in coverTypeEFList on bookPrice.CoverTypeID equals coverType.CoverTypeID
+                select new Book()
+                {
+                    BookTitle = book.BookTitle,
+                    Author = book.Author,
+                    ISBN = book.ISBN,
+                    PublishedDate = book.PublishedDate,
+                    Publisher = book.Publisher,
+                    BlobURL = book.BlobURL,
+                    CoverType = coverType.CoverType,
+                    Price = bookPrice.Price,
+                };
+
             return Json(bookList);
         }
     }

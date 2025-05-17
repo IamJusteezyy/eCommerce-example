@@ -2,22 +2,23 @@
 	ViewData["Title"] = "Browse";
 }
 
-<div class="container">
+<div class="container body-container">
 
     <div class="alert alert-primary" role="alert">
         Row data: <span id="row-data"></span>
     </div>
-
-    <table id="example" class="table table-sm table-hover" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-    </table>
-
+    <div class="row my-5">
+        <table id="example" class="table table-sm table-hover" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 
 @section Scripts {
@@ -29,45 +30,44 @@
             'contentType': 'application/json',
             'dataType': 'json'
         }).done( function(data) {
-            console.log(data);
             $('#example').DataTable({
                  'data': data,
                  'dom':
-                    "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'<'float-md-right ml-2'B>f>>" +
-                    "<'row'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    "<'row'<'col-sm-4 col-md-6'l><'col-sm-4 col-md-6 text-end'<'ml-2'B>f>>" +
+                    "<'row'<'table-row col-sm-12'tr>>" +
+                    "<'row'<'col-sm-4 col-md-4'i><'col-sm-4 col-md-7'p>>",
                  'buttons': [ 'csv', {
-                    'text': '<i class="fa fa-id-badge fa-fw" aria-hidden="true"></i>',
+                    'text': '<i class="fa fa-id-badge fa-fw" aria-hidden="true"></i><span class="button-txt"></span>',
                     'action': function (e, dt, node) {
 
                        $(dt.table().node()).toggleClass('cards');
                        $('.fa', node).toggleClass(['fa-table', 'fa-id-badge']);
-
+                       $('.table-row', node).toggleClass(['col-sm-12', 'col-sm-4']);
                        dt.draw('page');
                     },
-                    'className': 'btn-sm',
+                    'className': 'custom-secondary-btn',
                     'attr': {
                        'title': 'Change views',
                     }
                  }],
                  'select': 'single',
                  'columns': [
-                    // {
-                    //    'orderable': false,
-                    //    'data': null,
-                    //    'className': 'text-center',
-                    //    'render': function(data, type, full, meta){
-                    //       if (type === 'display'){
-                    //          var token = (Math.random()*3*1e38).toString(16);
-                    //          data = '<i class="fa fa-user fa-fw"></i>';
-                    //          data = '<img src="">';
-                    //       }
-
-                    //       return data;
-                    //    }
-                    // },
                     {
-                       'data': 'title'
+                       'orderable': false,
+                       'data': null,
+                       'className': 'text-center',
+                       'render': function(data, type, full, meta){
+                          if (type === 'display'){
+                             var url = data.blobURL;
+                             data = '<i class="fa fa-user fa-fw"></i>';
+                             data = '<img class="book-cover-small" src="' + url + '">';
+                          }
+
+                          return data;
+                       }
+                    },
+                    {
+                       'data': 'bookTitle'
                     },
                     {
                        'data': 'author'
