@@ -11,6 +11,8 @@ namespace eCommerceExample.Repository.IUnitOfWork
     public interface IUnitOfWork
     {
         IBookRepository BookRepository { get; }
+        IBookPriceRepository BookPriceRepository { get; }
+        ICoverTypeRepository CoverTypeRepository { get; }
         void Save();
     }
 }

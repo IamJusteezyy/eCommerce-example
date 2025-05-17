@@ -7,7 +7,7 @@ using eCommerceExample.EF.DBModels;
 
 namespace eCommerceExample.Repository.Interfaces
 {
-    public interface IBookRepository : IGenericRepository<BookEF>
+    public interface IBookPriceRepository : IGenericRepository<BookPriceEF>
     {
 
     }

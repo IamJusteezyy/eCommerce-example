@@ -16,11 +16,15 @@ namespace eCommerceExample.Library.UnitOfWork
         private readonly NookBookContext _context;
 
         public IBookRepository BookRepository { get; private set; }
+        public IBookPriceRepository BookPriceRepository { get; private set; }
+        public ICoverTypeRepository CoverTypeRepository { get; private set; }
 
-        public UnitOfWork(NookBookContext context, IBookRepository bookRepository)
+        public UnitOfWork(NookBookContext context, IBookRepository bookRepository, IBookPriceRepository bookPriceRepository, ICoverTypeRepository coverTypeRepository)
         {
             _context = context;
             BookRepository = new BookRepository(_context);
+            BookPriceRepository = bookPriceRepository;
+            CoverTypeRepository = coverTypeRepository;
         }
 
         public void Save()

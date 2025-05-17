@@ -19,5 +19,6 @@ namespace eCommerceExample.EF.DBModels
         public string? Publisher { get; set; }
         public DateTime? PublishedDate { get; set; }
         public int? PageCount { get; set; }
+        public string? BlobURL { get; set; }
     }
 }

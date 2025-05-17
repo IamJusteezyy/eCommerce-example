@@ -119,16 +119,16 @@
   }
 
   /* CUSTOM BUTTON */
-  .custom-btn {
-    background: var(--dark-color);
-    border: none;
-    border-radius: var(--border-radius-medium);
-    color: var(--white-color);
-    letter-spacing: 0.2px;
-    padding: 6px 36px 10px 36px;
-    font-size: var(--button-font-size);
-    white-space: nowrap;
-  }
+.custom-btn {
+    background: var(--dark-color) !important;
+    border: none !important;
+    border-radius: var(--border-radius-small) !important;
+    color: var(--white-color) !important;
+    letter-spacing: 0.2px !important;
+    padding: 6px 36px 10px 36px !important;
+    font-size: var(--button-font-size) !important;
+    white-space: nowrap !important;
+}
 
   .custom-btn:hover,
   .custom-btn:focus {
@@ -140,6 +140,16 @@
       
   }
 
+.custom-secondary-btn {
+    background: var(--dark-color) !important;
+    border: none !important;
+    border-radius: var(--border-radius-small) !important;
+    color: var(--white-color) !important;
+    letter-spacing: 0.2px !important;
+    padding: 6px 36px 10px 36px !important;
+    font-size: var(--button-font-size) !important;
+    white-space: nowrap !important;
+}
 
   /*---------------------------------------
      GENERAL               
@@ -369,6 +379,17 @@ tr.selected td:before {
     width: 150px;
     height: 150px;
     margin: 15px;
+}
+
+
+td .book-cover {
+    max-height: 50%;
+    max-width: 50%;
+}
+
+td .book-cover-small {
+    max-height: 40%;
+    max-width: 40%;
 }
 /*---------------------------------------
      HERO                

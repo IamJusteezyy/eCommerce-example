@@ -4,20 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using eCommerceExample.EF.DBContext;
-using eCommerceExample.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceExample.Library.Repositories
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> where TEntity : class
     {
-        private readonly NookBookContext _context;
-        internal DbSet<TEntity> _dbSet;
+        internal NookBookContext _nookBookContext;
+        private readonly DbSet<TEntity> _dbSet;
 
-        public GenericRepository(NookBookContext context)
+        public GenericRepository(NookBookContext nookBookContext)
         {
-            this._context = context;
-            this._dbSet = _context.Set<TEntity>();
+            _nookBookContext = nookBookContext;
+            this._dbSet = _nookBookContext.Set<TEntity>();
         }
 
         public Task<List<TEntity>> GetAll()
@@ -27,12 +26,11 @@ namespace eCommerceExample.Library.Repositories
 
         public void Add(TEntity entity)
         {
-            _dbSet.Add(entity);
+            _nookBookContext.Add(entity);
         }
-
         public void Remove(TEntity entity)
         {
-            _dbSet.Remove(entity);
+            _nookBookContext.Remove(entity);
         }
     }
 }

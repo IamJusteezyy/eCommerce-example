@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 using eCommerceExample.EF.DBContext;
 using eCommerceExample.EF.DBModels;
 using eCommerceExample.Repository.Interfaces;
-using eCommerceExample.Repository.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace eCommerceExample.Library.Repositories
 {
-    public class BookRepository : GenericRepository<BookEF>, IBookRepository
+    public class CoverTypeRepository : GenericRepository<CoverTypeEF>, ICoverTypeRepository
     {
-        public BookRepository(NookBookContext context) : base(context) { }
+        public CoverTypeRepository(NookBookContext context) : base(context) { }
     }
 }
