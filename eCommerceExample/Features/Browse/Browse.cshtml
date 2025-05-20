@@ -4,12 +4,25 @@
 }
 
 <div class="container body-container">
+    
     <div class="row my-5">
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="chkSwitchView">
-            <label class="form-check-label" for="chkSwitchView">Toggle List/Card View</label>
-        </div>
 
+        <!--Search and filters-->
+        <form id="frmSearch" asp-controller="Browse" asp-action="Search" method="get">
+            <div id="dvSearchFilter" class="row">
+                <div class="col-6 d-flex align-items-center">
+                    <input id="txtSearch" asp-for="SearchTerm" class="form-control" placeholder="Search by Title, Author, ISBN..." />
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn custom-btn">Search</button>
+                </div>
+                <div class="form-check form-switch d-flex justify-content-end">
+                    <input class="form-check-input" type="checkbox" role="switch" id="chkSwitchView">
+                    <label class="form-check-label mx-2" for="chkSwitchView">Toggle List/Card View</label>
+                </div>
+            </div>
+        </form>
+        
         <!--Card View-->
         <div id="dvCardView" class="row">
             @if(Model.BookList != null && Model.BookList.Count() > 0)

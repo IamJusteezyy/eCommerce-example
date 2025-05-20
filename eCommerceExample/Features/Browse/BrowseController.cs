@@ -1,4 +1,5 @@
-﻿using eCommerceExample.EF.DBModels;
+﻿using System.ComponentModel;
+using eCommerceExample.EF.DBModels;
 using eCommerceExample.Library.UnitOfWork;
 using eCommerceExample.Repository.Interfaces;
 using eCommerceExample.Repository.IUnitOfWork;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerceExample.Features.Browse
 {
-    [Route("Browse")]
+    
     public class BrowseController : Controller
     {
         private IUnitOfWork _unitOfWork;
@@ -17,12 +18,43 @@ namespace eCommerceExample.Features.Browse
             _unitOfWork = unitOfWork;
         }
 
+        [Route("Browse")]
         public async Task<IActionResult> Browse()
         {
-            var bookEFList = await _unitOfWork.BookRepository.GetAll();
+            var bookList = await GetBooks();
+
+            BrowseViewModel browseViewModel = new()
+            {
+                BookList = bookList,
+            };
+
+            return View(browseViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(BrowseViewModel browseViewModel)
+        {
+            var bookList = await GetBooks(browseViewModel.SearchTerm);
+
+            browseViewModel.BookList = bookList;
+
+            return View("Browse", browseViewModel);
+        }
+
+        private async Task<IEnumerable<Book>> GetBooks(string? searchTerm = null)
+        {
+            var bookEFList = new List<BookEF>();
             var bookPriceEFList = await _unitOfWork.BookPriceRepository.GetAll();
             var coverTypeEFList = await _unitOfWork.CoverTypeRepository.GetAll();
 
+            if (searchTerm != null)
+            {
+                bookEFList = await _unitOfWork.BookRepository.GetBooksBySearch(searchTerm);
+            }
+            else
+            {
+                bookEFList = await _unitOfWork.BookRepository.GetAll();
+            }
             var bookList =
                 from book in bookEFList
                 join bookPrice in bookPriceEFList on book.BookID equals bookPrice.BookID
@@ -40,38 +72,7 @@ namespace eCommerceExample.Features.Browse
                     Price = bookPrice.Price,
                 };
 
-            BrowseViewModel browseViewModel = new()
-            {
-                BookList = bookList,
-            };
-            return View(browseViewModel);
-        }
-
-        [HttpGet]
-        [Route("GetBooks")]
-        public async Task<JsonResult> GetBooks()
-        {
-            var bookEFList = await _unitOfWork.BookRepository.GetAll();
-            var bookPriceEFList = await _unitOfWork.BookPriceRepository.GetAll();
-            var coverTypeEFList = await _unitOfWork.CoverTypeRepository.GetAll();
-
-            var bookList =
-                from book in bookEFList
-                join bookPrice in bookPriceEFList on book.BookID equals bookPrice.BookID
-                join coverType in coverTypeEFList on bookPrice.CoverTypeID equals coverType.CoverTypeID
-                select new Book()
-                {
-                    BookTitle = book.BookTitle,
-                    Author = book.Author,
-                    ISBN = book.ISBN,
-                    PublishedDate = book.PublishedDate,
-                    Publisher = book.Publisher,
-                    BlobURL = book.BlobURL,
-                    CoverType = coverType.CoverType,
-                    Price = bookPrice.Price,
-                };
-
-            return Json(bookList);
+            return bookList;
         }
     }
 }

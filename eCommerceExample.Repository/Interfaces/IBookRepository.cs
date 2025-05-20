@@ -9,6 +9,6 @@ namespace eCommerceExample.Repository.Interfaces
 {
     public interface IBookRepository : IGenericRepository<BookEF>
     {
-
+        Task<List<BookEF>> GetBooksBySearch(string searchTerm);
     }
 }

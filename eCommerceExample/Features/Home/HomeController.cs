@@ -12,6 +12,8 @@ namespace eCommerceExample.Features.Home
             _logger = logger;
         }
 
+        [Route("Home")]
+        [Route("")]
         public IActionResult Home()
         {
             return View();
